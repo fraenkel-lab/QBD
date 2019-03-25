@@ -30,25 +30,17 @@ RUN apt-get clean all && \
         libxrender1     \
         mercurial       \
         subversion      \
-        zlib1g-dev &&   \
-        apt-get clean && \
-        apt-get purge && \
-        rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+        zlib1g-dev
 
-# Shell-installation
+# Shell tool installation
 RUN apt-get install -y  \
         bedtools
 
-# Python tools
+# Python tool installation
 RUN pip install pybedtools
 
 
-# R tools
+# R tool installation
+# RUN
 
-
-
-
-
-
-
-
+CMD ["/bin/bash"]
