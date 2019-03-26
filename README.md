@@ -42,10 +42,13 @@ QBD is a system to **Q**uery **B**y **D**ata.
 
 3.
     a. Find all non-coding variants in each patient that overlap with that patient's ATAC-Seq peaks
+
     b. Generate a consensus set of ATAC-Seq peaks and find the non-coding variants for all patients.
 
 4.
     a. Use output from filters like those in cases 2 and 3 to generate a table of patients vs. variants.
+
     b. Cluster patients by similarity in variants
+
     c. Run dimensionality reduction algorithms on this table
 

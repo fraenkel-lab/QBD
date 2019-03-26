@@ -34,10 +34,12 @@ RUN apt-get clean all && \
 
 # Shell tool installation
 RUN apt-get install -y  \
-        bedtools
+        bedtools        \
+        samtools
 
 # Python tool installation
-RUN pip install pybedtools
+RUN pip install         \
+        pybedtools
 
 
 # R tool installation
