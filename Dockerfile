@@ -30,12 +30,49 @@ RUN apt-get clean all && \
         libxrender1     \
         mercurial       \
         subversion      \
-        zlib1g-dev
+        zlib1g-dev      \
+        gcc             \
+        libbz2-dev      \
+        libgsl-dev      \
+        libperl-dev     \
+        liblzma-dev     \
+        libz-dev        \
+        make
+
+ADD https://raw.githubusercontent.com/dceoy/print-github-tags/master/print-github-tags /usr/local/bin/print-github-tags
 
 # Shell tool installation
 RUN apt-get install -y  \
         bedtools        \
         samtools
+
+RUN wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20190304.zip && \
+    unzip plink_linux_x86_64_20190304.zip -d plink && \
+    mv plink/plink /usr/local/bin && \
+    rm -rf plink plink_linux_x86_64_20190304.zip
+
+# RUN wget https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2 && \
+#     mkdir /usr/local/bcftools && \
+#     tar -xjf bcftools-1.9.tar.bz2 -C /usr/local/bcftools && \
+#     rm bcftools-1.9.tar.bz2
+
+RUN set -e \
+      && chmod +x /usr/local/bin/print-github-tags \
+      && print-github-tags --release --latest --tar samtools/htslib \
+        | xargs -i curl -SL {} -o /tmp/htslib.tar.gz \
+      && tar xvf /tmp/htslib.tar.gz -C /usr/local/src --remove-files \
+      && mv /usr/local/src/htslib-* /usr/local/src/htslib \
+      && print-github-tags --release --latest --tar samtools/bcftools \
+        | xargs -i curl -SL {} -o /tmp/bcftools.tar.gz \
+      && tar xvf /tmp/bcftools.tar.gz -C /usr/local/src --remove-files \
+      && mv /usr/local/src/bcftools-* /usr/local/src/bcftools \
+      && cd /usr/local/src/bcftools \
+      && autoheader \
+      && autoconf \
+      && ./configure --enable-libgsl --enable-perl-filters \
+      && make \
+      && make install
+
 
 # Python tool installation
 RUN pip install         \
@@ -46,3 +83,7 @@ RUN pip install         \
 # RUN
 
 CMD ["/bin/bash"]
+
+
+
+
