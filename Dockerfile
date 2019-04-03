@@ -58,12 +58,10 @@ RUN wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20190304.zip &
 
 RUN set -e \
       && chmod +x /usr/local/bin/print-github-tags \
-      && print-github-tags --release --latest --tar samtools/htslib \
-        | xargs -i curl -SL {} -o /tmp/htslib.tar.gz \
+      && print-github-tags --release --latest --tar samtools/htslib | xargs -i curl -SL {} -o /tmp/htslib.tar.gz \
       && tar xvf /tmp/htslib.tar.gz -C /usr/local/src --remove-files \
       && mv /usr/local/src/htslib-* /usr/local/src/htslib \
-      && print-github-tags --release --latest --tar samtools/bcftools \
-        | xargs -i curl -SL {} -o /tmp/bcftools.tar.gz \
+      && print-github-tags --release --latest --tar samtools/bcftools | xargs -i curl -SL {} -o /tmp/bcftools.tar.gz \
       && tar xvf /tmp/bcftools.tar.gz -C /usr/local/src --remove-files \
       && mv /usr/local/src/bcftools-* /usr/local/src/bcftools \
       && cd /usr/local/src/bcftools \
