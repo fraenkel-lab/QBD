@@ -51,11 +51,6 @@ RUN wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20190304.zip &
     mv plink/plink /usr/local/bin && \
     rm -rf plink plink_linux_x86_64_20190304.zip
 
-# RUN wget https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2 && \
-#     mkdir /usr/local/bcftools && \
-#     tar -xjf bcftools-1.9.tar.bz2 -C /usr/local/bcftools && \
-#     rm bcftools-1.9.tar.bz2
-
 RUN set -e \
       && chmod +x /usr/local/bin/print-github-tags \
       && print-github-tags --release --latest --tar samtools/htslib | xargs -i curl -SL {} -o /tmp/htslib.tar.gz \
@@ -74,7 +69,9 @@ RUN set -e \
 
 # Python tool installation
 RUN pip install         \
-        pybedtools
+        numpy           \
+        pandas          \
+        openpyxl
 
 
 # R tool installation
